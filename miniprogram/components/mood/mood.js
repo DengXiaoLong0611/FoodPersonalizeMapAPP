@@ -6,7 +6,7 @@ Component({
     showLabel: { type: Boolean, value: true },
   },
   data: {
-    assets: { link: "", zelda: "" },
+    assets: { link: "/assets/hero-moods.jpg", zelda: "/assets/princess-moods.jpg" },
     labels: ["有点喜欢", "很喜欢", "超级喜欢"],
   },
 });

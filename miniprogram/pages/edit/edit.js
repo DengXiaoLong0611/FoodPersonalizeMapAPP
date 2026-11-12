@@ -27,7 +27,7 @@ Page({
     levels: [
       { id: 1, label: "有点喜欢", note: "吃到一颗小惊喜" },
       { id: 2, label: "很喜欢", note: "下次还想再来" },
-      { id: 3, label: "超级喜欢", note: "举起卢比，开心到笑出声" },
+      { id: 3, label: "超级喜欢", note: "举起宝石，开心到笑出声" },
     ],
   },
   onShow() {

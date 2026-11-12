@@ -65,8 +65,8 @@
         bindtap="chooseCharacter"
       >
         <mood character="link" level="3" show-label="{{false}}" />
-        <view class="name">林克</view>
-        <view class="muted">绿帽小勇者</view>
+        <view class="name">小勇者</view>
+        <view class="muted">寻找美味的勇气</view>
       </view>
       <view
         class="role-option {{character==='zelda'?'chosen':''}}"
@@ -74,8 +74,8 @@
         bindtap="chooseCharacter"
       >
         <mood character="zelda" level="3" show-label="{{false}}" />
-        <view class="name">塞尔达</view>
-        <view class="muted">好奇心公主</view>
+        <view class="name">小公主</view>
+        <view class="muted">收藏美味的好奇心</view>
       </view>
     </view>
     <view class="muted" style="margin-top: 20rpx">
