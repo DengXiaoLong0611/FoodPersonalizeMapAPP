@@ -1,1 +1,7 @@
-{ "navigationBarTitleText": "美食地图", "enablePullDownRefresh": true }
+{
+  "navigationBarTitleText": "美食地图",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "mood": "/components/mood/mood"
+  }
+}

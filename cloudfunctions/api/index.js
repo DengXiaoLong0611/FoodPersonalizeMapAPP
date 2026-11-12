@@ -74,8 +74,28 @@ exports.main = async (event) => {
           await user.set({ data: { _openid: openid, createdAt: Date.now() } });
         return {
           ok: true,
-          data: { loggedIn: true, storagePrefix: "food/" + id + "/" },
+          data: {
+            loggedIn: true,
+            storagePrefix: "food/" + id + "/",
+            character: (existing && existing.character) || "link",
+          },
         };
+      }
+      case "profile": {
+        if (!["link", "zelda"].includes(event.character))
+          throw rejection("请选择有效角色");
+        const id = crypto.createHash("sha256").update(openid).digest("hex");
+        await db
+          .collection("users")
+          .doc(id)
+          .set({
+            data: {
+              _openid: openid,
+              character: event.character,
+              updatedAt: Date.now(),
+            },
+          });
+        return { ok: true, data: { character: event.character } };
       }
       case "list": {
         let all = [];

@@ -1,0 +1,13 @@
+.role-option {
+  width: 48%;
+  text-align: center;
+  padding: 18rpx 5rpx;
+  border: 3rpx solid #e9dfce;
+  border-radius: 26rpx;
+  background: #fff9ef;
+}
+.role-option.chosen {
+  background: #fff0ac;
+  border-color: #675243;
+  box-shadow: 4rpx 4rpx 0 #e5d1a5;
+}

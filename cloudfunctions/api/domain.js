@@ -25,6 +25,14 @@ function photos(r) {
     ]),
   ];
 }
+const LIKE_LABELS = ["有点喜欢", "很喜欢", "超级喜欢"];
+function likeLevel(record = {}) {
+  if ([1, 2, 3].includes(record.likeLevel)) return record.likeLevel;
+  return Math.ceil(Math.max(1, Math.min(5, Number(record.rating) || 5)) / 2);
+}
+function likeLabel(level) {
+  return LIKE_LABELS[Math.max(1, Math.min(3, Number(level) || 3)) - 1];
+}
 function validate(r) {
   const name = String(r.name || "").trim();
   if (!name || name.length > 60) throw new Error("请填写 1～60 字的店名");
@@ -55,7 +63,8 @@ function validate(r) {
     longitude: r.longitude,
     category: String(r.category || "其他").slice(0, 20),
     tags: (r.tags || []).slice(0, 8).map((t) => String(t).slice(0, 20)),
-    rating: Math.max(1, Math.min(5, Number(r.rating) || 5)),
+    likeLevel: likeLevel(r),
+    rating: likeLevel(r) * 2 - 1,
     note: String(r.note || "").slice(0, 3000),
     photos: (r.photos || []).slice(0, 9),
     menuPhotos: (r.menuPhotos || []).slice(0, 9),
@@ -77,4 +86,12 @@ function formatDistance(m) {
       ? m + " m"
       : (m / 1000).toFixed(1) + " km";
 }
-module.exports = { distance, photos, validate, arrival, formatDistance };
+module.exports = {
+  distance,
+  photos,
+  validate,
+  arrival,
+  formatDistance,
+  likeLevel,
+  likeLabel,
+};

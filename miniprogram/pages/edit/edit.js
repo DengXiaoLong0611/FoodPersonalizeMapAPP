@@ -7,7 +7,7 @@ const blank = () => ({
   longitude: null,
   category: "粤菜",
   tags: [],
-  rating: 5,
+  likeLevel: 3,
   note: "",
   photos: [],
   menuPhotos: [],
@@ -23,6 +23,15 @@ Page({
     recording: false,
     voiceStatus: "",
     loading: false,
+    character: "link",
+    levels: [
+      { id: 1, label: "有点喜欢", note: "吃到一颗小惊喜" },
+      { id: 2, label: "很喜欢", note: "下次还想再来" },
+      { id: 3, label: "超级喜欢", note: "举起卢比，开心到笑出声" },
+    ],
+  },
+  onShow() {
+    this.setData({ character: api.character() });
   },
   onLoad(options) {
     this.id = options.id || "";
@@ -50,7 +59,10 @@ Page({
   },
   restore() {
     const draft = wx.getStorageSync("food-draft");
-    if (draft) this.setData(draft);
+    if (draft) {
+      draft.form.likeLevel = d.likeLevel(draft.form);
+      this.setData(draft);
+    }
   },
   persist() {
     if (!this.id && !this.saved)
@@ -65,6 +77,7 @@ Page({
     try {
       const form = await api.call("get", { id: this.id });
       this.version = form.version || 1;
+      form.likeLevel = d.likeLevel(form);
       this.setData({
         form,
         tagsText: (form.tags || []).join("，"),
@@ -94,9 +107,9 @@ Page({
       "form.category": this.data.categories[index],
     });
   },
-  rating(e) {
+  like(e) {
     if (this.locked()) return;
-    this.setData({ "form.rating": Number(e.currentTarget.dataset.value) });
+    this.setData({ "form.likeLevel": Number(e.currentTarget.dataset.value) });
   },
   locked() {
     if (this.pending || this.data.saving) {

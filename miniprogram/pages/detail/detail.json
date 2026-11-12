@@ -1,1 +1,7 @@
-{ "navigationBarTitleText": "美食记忆", "enablePullDownRefresh": false }
+{
+  "navigationBarTitleText": "美食记忆",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "mood": "/components/mood/mood"
+  }
+}

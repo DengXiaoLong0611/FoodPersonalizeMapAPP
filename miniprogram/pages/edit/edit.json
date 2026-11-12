@@ -1,1 +1,7 @@
-{ "navigationBarTitleText": "记住这一口", "enablePullDownRefresh": false }
+{
+  "navigationBarTitleText": "记住这一口",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "mood": "/components/mood/mood"
+  }
+}

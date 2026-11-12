@@ -16,6 +16,7 @@ Page({
     error: "",
   },
   onShow() {
+    this.setData({ character: api.character() });
     this.active = true;
     this.routeCache = {};
     this.load();
@@ -37,7 +38,11 @@ Page({
     this.setData({ loading: true, error: "" });
     try {
       const result = await api.list();
-      this.setData({ records: result.records, offline: result.offline });
+      this.setData({
+        records: result.records,
+        offline: result.offline,
+        character: api.character(),
+      });
       this.filter();
     } catch (error) {
       this.setData({ error: error.message });
@@ -74,7 +79,7 @@ Page({
         (this.routeCache && this.routeCache[r._id]) ||
         (this.data.location ? "步行路线查询中…" : "步行路线待定位"),
       distanceLabel: d.formatDistance(r.meters),
-      stars: "★".repeat(r.rating || 5),
+      likeLevel: d.likeLevel(r),
       dishLabel: (r.dishes || []).map((d) => d.name).join(" · "),
     }));
     this.markerIds = items.map((r) => r._id);

@@ -44,7 +44,11 @@ Page({
     this.setData({ loading: true, error: "" });
     try {
       const record = await api.call("get", { id: this.id });
-      this.setData({ record, stars: "★".repeat(record.rating || 5) });
+      this.setData({
+        record,
+        likeLevel: d.likeLevel(record),
+        character: api.character(),
+      });
       this.locate();
     } catch (error) {
       this.setData({ error: error.message });

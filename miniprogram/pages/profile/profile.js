@@ -13,6 +13,8 @@ Page({
     avatar: "",
     offline: false,
     loggedIn: false,
+    character: "link",
+    roleSaving: false,
   },
   onLoad() {
     const profile = wx.getStorageSync("profile") || {};
@@ -29,7 +31,7 @@ Page({
     this.setData({ loading: true, error: "" });
     try {
       await api.call("login");
-      this.setData({ loggedIn: true });
+      this.setData({ loggedIn: true, character: api.character() });
       const result = await api.list();
       const records = result.records;
       this.setData({
@@ -81,6 +83,20 @@ Page({
   },
   add() {
     wx.switchTab({ url: "/pages/edit/edit" });
+  },
+  async chooseCharacter(e) {
+    if (this.data.roleSaving) return;
+    this.setData({ roleSaving: true });
+    try {
+      const character = e.currentTarget.dataset.character;
+      await api.call("profile", { character });
+      wx.setStorageSync("character", character);
+      this.setData({ character });
+    } catch (error) {
+      api.error(error);
+    } finally {
+      this.setData({ roleSaving: false });
+    }
   },
   nickname(e) {
     this.setData({ nickname: e.detail.value || "吃饭小朋友" });

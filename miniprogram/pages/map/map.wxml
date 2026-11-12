@@ -79,7 +79,7 @@
           <text class="name">{{item.name}}</text>
           <text class="badge">{{item.category}}</text>
         </view>
-        <view class="stars">{{item.stars}}</view>
+        <mood level="{{item.likeLevel}}" character="{{character}}" compact />
         <view class="muted">
           {{item.dishLabel || '还没记下招牌菜，下一次补上'}}
         </view>

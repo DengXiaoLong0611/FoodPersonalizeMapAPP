@@ -14,10 +14,13 @@ async function call(action, data = {}) {
       response.result.definitive !== false;
     throw error;
   }
+  if (action === "login" && response.result.data.character)
+    wx.setStorageSync("character", response.result.data.character);
   return response.result.data;
 }
 async function list() {
   try {
+    await call("login");
     const records = await call("list");
     wx.setStorageSync("restaurants", records);
     return { records, offline: false };
@@ -71,4 +74,7 @@ function error(error) {
     duration: 3000,
   });
 }
-module.exports = { call, list, uploadRecord, cleanup, error };
+function character() {
+  return wx.getStorageSync("character") || "link";
+}
+module.exports = { call, list, uploadRecord, cleanup, error, character };

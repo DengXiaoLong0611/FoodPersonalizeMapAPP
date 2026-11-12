@@ -10,7 +10,7 @@
         <text>♡ 我的私藏</text>
       </view>
       <view class="title">{{record.name}}</view>
-      <view class="stars">{{stars}}</view>
+      <mood level="{{likeLevel}}" character="{{character}}" compact />
       <view class="muted">📍 {{record.address}}</view>
       <view class="row wrap" style="margin-top: 20rpx">
         <text wx:for="{{record.tags}}" wx:key="*this" class="chip">

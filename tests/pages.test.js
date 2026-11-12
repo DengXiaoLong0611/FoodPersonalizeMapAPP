@@ -65,6 +65,9 @@ test("个人页可通过正常入口统计菜品与全部照片", async () => {
   };
   global.wx = {
     setStorageSync() {},
+    getStorageSync() {
+      return "link";
+    },
     cloud: {
       callFunction: async (o) => ({
         result: { ok: true, data: o.data.action === "login" ? {} : [record] },

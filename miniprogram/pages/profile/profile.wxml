@@ -19,7 +19,13 @@
           src="{{avatar}}"
           style="width: 110rpx; height: 110rpx"
         />
-        <text wx:else style="font-size: 65rpx">🐣</text>
+        <mood
+          wx:else
+          character="{{character}}"
+          level="3"
+          compact
+          show-label="{{false}}"
+        />
       </button>
       <view class="grow">
         <input
@@ -48,6 +54,32 @@
         <view class="stat">{{photoCount}}</view>
         <view class="muted">张美味记忆</view>
       </view>
+    </view>
+  </view>
+  <view class="card">
+    <view class="section">今天，谁去寻找美味？</view>
+    <view class="row between">
+      <view
+        class="role-option {{character==='link'?'chosen':''}}"
+        data-character="link"
+        bindtap="chooseCharacter"
+      >
+        <mood character="link" level="3" show-label="{{false}}" />
+        <view class="name">林克</view>
+        <view class="muted">绿帽小勇者</view>
+      </view>
+      <view
+        class="role-option {{character==='zelda'?'chosen':''}}"
+        data-character="zelda"
+        bindtap="chooseCharacter"
+      >
+        <mood character="zelda" level="3" show-label="{{false}}" />
+        <view class="name">塞尔达</view>
+        <view class="muted">好奇心公主</view>
+      </view>
+    </view>
+    <view class="muted" style="margin-top: 20rpx">
+      {{roleSaving?'正在同步角色…':'角色跟随你的微信账户同步，每个人都能选择自己的冒险形象。'}}
     </view>
   </view>
   <view class="muted" style="margin-top: 20rpx">

@@ -97,3 +97,20 @@ test("云函数拒绝引用其他账户的照片路径", async () => {
   assert.equal(result.ok, false);
   assert.match(result.error, /当前账户/);
 });
+test("两个人的角色偏好跟随各自微信身份保存", async () => {
+  currentUser = "alice";
+  assert.equal((await main({ action: "profile", character: "link" })).ok, true);
+  currentUser = "bob";
+  assert.equal(
+    (await main({ action: "profile", character: "zelda" })).ok,
+    true,
+  );
+  assert.equal((await main({ action: "login" })).data.character, "zelda");
+  currentUser = "alice";
+  assert.equal((await main({ action: "login" })).data.character, "link");
+});
+test("云端拒绝不受支持的角色值", async () => {
+  const response = await main({ action: "profile", character: "unknown" });
+  assert.equal(response.ok, false);
+  assert.match(response.error, /角色/);
+});

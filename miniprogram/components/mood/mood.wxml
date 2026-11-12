@@ -1,0 +1,16 @@
+<view class="mood {{compact?'compact':''}}">
+  <view class="portrait">
+    <image
+      wx:if="{{assets[character]}}"
+      class="sheet"
+      src="{{assets[character]}}"
+      mode="scaleToFill"
+      style="left:{{(1-level)*100}}%"
+    />
+    <view wx:else class="fallback">
+      <text class="gem level-{{level}}">◆</text>
+      <text class="face">{{level===1?'🙂':level===2?'😄':'😆'}}</text>
+    </view>
+  </view>
+  <view wx:if="{{showLabel}}" class="label">{{labels[level-1]}}</view>
+</view>

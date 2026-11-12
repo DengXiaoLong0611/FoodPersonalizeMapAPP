@@ -1,0 +1,26 @@
+.like-options {
+  display: flex;
+  gap: 10rpx;
+  margin: 20rpx -12rpx;
+}
+.like-option {
+  flex: 1;
+  min-width: 0;
+  padding: 18rpx 3rpx;
+  border: 3rpx solid transparent;
+  border-radius: 24rpx;
+  background: #f6f0e5;
+}
+.like-option.selected {
+  background: #fff0ac;
+  border-color: #675243;
+  box-shadow: 3rpx 4rpx 0 #dec998;
+}
+.like-note {
+  font-size: 20rpx;
+  color: #86745e;
+  line-height: 1.5;
+  text-align: center;
+  margin-top: 12rpx;
+  min-height: 60rpx;
+}

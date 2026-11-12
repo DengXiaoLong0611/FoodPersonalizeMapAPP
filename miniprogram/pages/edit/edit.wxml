@@ -37,18 +37,17 @@
         <text>{{form.category}} ⌄</text>
       </view>
     </picker>
-    <view class="row between">
-      <text>想再来指数</text>
-      <view class="row">
-        <text
-          wx:for="{{[1,2,3,4,5]}}"
-          wx:key="*this"
-          style="font-size:42rpx;color:{{form.rating>=item?'#e6a13c':'#d8d1c6'}}"
-          data-value="{{item}}"
-          bindtap="rating"
-        >
-          ★
-        </text>
+    <view class="section">吃完有多开心？</view>
+    <view class="like-options">
+      <view
+        wx:for="{{levels}}"
+        wx:key="id"
+        class="like-option {{form.likeLevel===item.id?'selected':''}}"
+        data-value="{{item.id}}"
+        bindtap="like"
+      >
+        <mood character="{{character}}" level="{{item.id}}" />
+        <view class="like-note">{{item.note}}</view>
       </view>
     </view>
     <input

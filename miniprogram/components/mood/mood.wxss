@@ -1,0 +1,66 @@
+.mood {
+  text-align: center;
+  color: #51473e;
+}
+.portrait {
+  width: 180rpx;
+  height: 180rpx;
+  position: relative;
+  overflow: hidden;
+  margin: auto;
+  border-radius: 24rpx;
+  background: #fff9ef;
+}
+.sheet {
+  position: absolute;
+  top: 0;
+  width: 300%;
+  height: 100%;
+}
+.label {
+  font-size: 25rpx;
+  font-weight: 700;
+  margin-top: 10rpx;
+}
+.compact {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+.compact .portrait {
+  width: 88rpx;
+  height: 88rpx;
+  margin: 0;
+}
+.compact .label {
+  font-size: 24rpx;
+  margin: 0;
+}
+.fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.gem {
+  font-size: 43rpx;
+  line-height: 1;
+  color: #48ac71;
+}
+.level-2 {
+  color: #4b91de;
+}
+.level-3 {
+  color: #ed6882;
+}
+.face {
+  font-size: 70rpx;
+  line-height: 1.2;
+}
+.compact .gem {
+  font-size: 23rpx;
+}
+.compact .face {
+  font-size: 38rpx;
+}
