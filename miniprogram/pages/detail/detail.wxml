@@ -1,0 +1,129 @@
+<view class="page">
+  <view wx:if="{{loading}}" class="loading">正在翻开这份美食记忆…</view>
+  <view wx:if="{{error}}" class="error" bindtap="load">
+    {{error}} · 点击重试
+  </view>
+  <block wx:if="{{record}}">
+    <view class="hero">
+      <view class="row between">
+        <text class="badge">{{record.category}}</text>
+        <text>♡ 我的私藏</text>
+      </view>
+      <view class="title">{{record.name}}</view>
+      <view class="stars">{{stars}}</view>
+      <view class="muted">📍 {{record.address}}</view>
+      <view class="row wrap" style="margin-top: 20rpx">
+        <text wx:for="{{record.tags}}" wx:key="*this" class="chip">
+          {{item}}
+        </text>
+      </view>
+    </view>
+    <view class="card mint">
+      <view class="row between">
+        <view class="section">向好吃的出发</view>
+        <text class="muted">直线 {{distanceLabel}}</text>
+      </view>
+      <view class="row wrap">
+        <view
+          wx:for="{{modes}}"
+          wx:key="id"
+          class="chip {{mode===item.id?'active':''}}"
+          data-id="{{item.id}}"
+          bindtap="mode"
+        >
+          {{item.label}}
+        </view>
+      </view>
+      <view wx:if="{{routing}}" class="loading">正在查询路线…</view>
+      <view wx:if="{{routeError}}" class="error" bindtap="queryRoute">
+        {{routeError}}
+      </view>
+      <view wx:if="{{route}}" style="margin-top: 25rpx">
+        <view class="row between">
+          <view>
+            <text class="stat">{{route.minutes}}</text>
+            <text>分钟</text>
+          </view>
+          <view>
+            <view class="name">{{route.arrival}} 到达</view>
+            <view class="muted">路线 {{route.distanceLabel}}</view>
+          </view>
+        </view>
+        <view class="muted" style="margin-top: 15rpx">
+          根据当前路线估算 · 路况可能变化
+        </view>
+        <view wx:for="{{route.steps}}" wx:key="*this" class="muted">
+          {{item}}
+        </view>
+      </view>
+      <view class="toolbar">
+        <button class="small secondary" bindtap="locate">重新定位</button>
+        <button class="small" bindtap="navigate">打开位置导航 ↗</button>
+      </view>
+    </view>
+    <view wx:if="{{record.note}}" class="card yellow">
+      <view class="section">口味小纸条 ✎</view>
+      <view class="note">{{record.note}}</view>
+    </view>
+    <view wx:if="{{record.photos.length}}" class="card">
+      <view class="section">这一餐的记忆 📷</view>
+      <view class="photos">
+        <image
+          wx:for="{{record.photos}}"
+          wx:key="*this"
+          class="photo"
+          mode="aspectFill"
+          src="{{item}}"
+          data-src="{{item}}"
+          bindtap="preview"
+        />
+      </view>
+    </view>
+    <view class="section">念念不忘的菜 🥢</view>
+    <view wx:if="{{!record.dishes.length}}" class="muted">
+      还没记录推荐菜，编辑时添一道吧。
+    </view>
+    <view
+      wx:for="{{record.dishes}}"
+      wx:key="id"
+      wx:for-item="dish"
+      class="card"
+    >
+      <view class="row between">
+        <text class="name">{{dish.name}}</text>
+        <text class="badge">{{dish.price || '私藏推荐'}}</text>
+      </view>
+      <view class="note" style="margin-top: 16rpx">{{dish.note}}</view>
+      <view class="photos">
+        <image
+          wx:for="{{dish.photos}}"
+          wx:key="*this"
+          class="photo"
+          mode="aspectFill"
+          src="{{item}}"
+          data-src="{{item}}"
+          bindtap="preview"
+        />
+      </view>
+    </view>
+    <view wx:if="{{record.menuPhotos.length}}" class="card">
+      <view class="section">菜单小档案 📋</view>
+      <view class="photos">
+        <image
+          wx:for="{{record.menuPhotos}}"
+          wx:key="*this"
+          class="photo"
+          mode="aspectFill"
+          src="{{item}}"
+          data-src="{{item}}"
+          bindtap="preview"
+        />
+      </view>
+      <view class="muted">点击照片放大查看菜单</view>
+    </view>
+    <view class="toolbar">
+      <button class="pink" bindtap="edit">✎ 编辑这份记忆</button>
+      <button class="secondary" bindtap="remove">删除</button>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,56 @@
+{
+  "pages": [
+    "pages/map/map",
+    "pages/edit/edit",
+    "pages/profile/profile",
+    "pages/detail/detail"
+  ],
+  "window": {
+    "navigationBarTitleText": "饭饭小地图",
+    "navigationBarBackgroundColor": "#fff9ef",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#fff9ef"
+  },
+  "tabBar": {
+    "color": "#777168",
+    "selectedColor": "#db587c",
+    "backgroundColor": "#fff9ef",
+    "list": [
+      {
+        "pagePath": "pages/map/map",
+        "text": "美食地图"
+      },
+      {
+        "pagePath": "pages/edit/edit",
+        "text": "记一口"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的食光"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "显示你与收藏美食店铺的距离和路线"
+    },
+    "scope.record": {
+      "desc": "将美食语音备注转成文字"
+    }
+  },
+  "requiredPrivateInfos": [
+    "getLocation",
+    "chooseLocation",
+    "startLocationUpdate",
+    "onLocationChange"
+  ],
+  "plugins": {
+    "WechatSI": {
+      "version": "0.3.5",
+      "provider": "wx069ba97219f66d99"
+    }
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents"
+}

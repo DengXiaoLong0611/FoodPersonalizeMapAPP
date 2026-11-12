@@ -1,0 +1,6 @@
+node_modules/
+.DS_Store
+project.private.config.json
+miniprogram/config.local.js
+.env*
+!.env.example

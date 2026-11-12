@@ -1,0 +1,91 @@
+<view class="page">
+  <view class="eyebrow">一人一份，好吃的生活档案</view>
+  <view class="title">我的食光 🍮</view>
+  <view class="hero mint">
+    <view class="row">
+      <button
+        open-type="chooseAvatar"
+        bindchooseavatar="avatar"
+        style="
+          padding: 0;
+          width: 110rpx;
+          height: 110rpx;
+          background: #fff5bd;
+          flex-shrink: 0;
+        "
+      >
+        <image
+          wx:if="{{avatar}}"
+          src="{{avatar}}"
+          style="width: 110rpx; height: 110rpx"
+        />
+        <text wx:else style="font-size: 65rpx">🐣</text>
+      </button>
+      <view class="grow">
+        <input
+          type="nickname"
+          value="{{nickname}}"
+          bindblur="nickname"
+          class="name"
+          maxlength="30"
+        />
+        <view class="muted">
+          {{loggedIn?'微信身份已连接 · 记录属于你':'正在连接微信云端'}}
+        </view>
+      </view>
+    </view>
+    <view class="divider" />
+    <view class="row between">
+      <view>
+        <view class="stat">{{count}}</view>
+        <view class="muted">家私藏好店</view>
+      </view>
+      <view>
+        <view class="stat">{{dishCount}}</view>
+        <view class="muted">道心头好</view>
+      </view>
+      <view>
+        <view class="stat">{{photoCount}}</view>
+        <view class="muted">张美味记忆</view>
+      </view>
+    </view>
+  </view>
+  <view class="muted" style="margin-top: 20rpx">
+    头像与昵称可选，保存在当前手机。
+  </view>
+  <view wx:if="{{offline}}" class="error">
+    正在查看离线缓存，下拉可重新同步
+  </view>
+  <view wx:if="{{error}}" class="error" bindtap="load">
+    {{error}} · 点击重试
+  </view>
+  <input
+    class="input"
+    placeholder="翻找我的美食记忆"
+    value="{{query}}"
+    bindinput="search"
+  />
+  <view class="section">我的美食收藏</view>
+  <view wx:if="{{loading}}" class="loading">正在同步美味…</view>
+  <view
+    wx:for="{{visible}}"
+    wx:key="_id"
+    class="card row between"
+    data-id="{{item._id}}"
+    bindtap="open"
+  >
+    <view>
+      <view class="name">{{item.name}}</view>
+      <view class="muted">
+        {{item.category}} · {{item.dishes.length}} 道推荐菜
+      </view>
+    </view>
+    <text class="link">翻开 →</text>
+  </view>
+  <view wx:if="{{!loading &amp;&amp; !visible.length}}" class="card empty">
+    <text class="empty-icon">🍡</text>
+    <view class="section">美味故事从一口开始</view>
+    <button bindtap="add">去记一家店</button>
+  </view>
+  <view class="footer-note">每一顿认真吃过的饭，都值得被记住 ♡</view>
+</view>

@@ -1,0 +1,204 @@
+<view class="page">
+  <view class="eyebrow">给今天的快乐，留个座标</view>
+  <view class="title">记住这一口 🍓</view>
+  <view class="subtitle">店铺、招牌菜，还有你独家的口味笔记。</view>
+  <view wx:if="{{pending}}" class="error">
+    上一笔保存尚未确认，点击底部保存按钮重试。当前内容已锁定，防止重复记录。
+  </view>
+  <view wx:if="{{loading}}" class="loading">正在打开记录…</view>
+  <view class="card">
+    <view class="row between">
+      <view class="section">这家店叫什么？</view>
+      <button class="small pink" data-field="name" bindtap="voice">
+        🎙 说店名
+      </button>
+    </view>
+    <input
+      class="input"
+      maxlength="60"
+      placeholder="店名，例如巷口那家牛肉粉"
+      value="{{form.name}}"
+      data-field="name"
+      bindinput="field"
+    />
+    <button class="mint" bindtap="chooseLocation">
+      📍 {{form.latitude?'重新选择店铺位置':'在地图上选一家店'}}
+    </button>
+    <view class="muted" style="margin-top: 15rpx">
+      {{form.address || '选点后会带入地址和坐标'}}
+    </view>
+    <picker
+      range="{{categories}}"
+      value="{{categoryIndex}}"
+      bindchange="category"
+    >
+      <view class="input row between">
+        <text>美食分类</text>
+        <text>{{form.category}} ⌄</text>
+      </view>
+    </picker>
+    <view class="row between">
+      <text>想再来指数</text>
+      <view class="row">
+        <text
+          wx:for="{{[1,2,3,4,5]}}"
+          wx:key="*this"
+          style="font-size:42rpx;color:{{form.rating>=item?'#e6a13c':'#d8d1c6'}}"
+          data-value="{{item}}"
+          bindtap="rating"
+        >
+          ★
+        </text>
+      </view>
+    </view>
+    <input
+      class="input"
+      placeholder="口味标签，用逗号隔开，如微辣，鲜甜"
+      value="{{tagsText}}"
+      bindinput="tags"
+    />
+  </view>
+  <view class="card yellow">
+    <view class="row between">
+      <view class="section">我的口味小纸条</view>
+      <button class="small pink" bindtap="voice">
+        {{recording?'■ 结束录音':'🎙 语音记一下'}}
+      </button>
+    </view>
+    <view wx:if="{{voiceStatus}}" class="muted">{{voiceStatus}}</view>
+    <textarea
+      class="input"
+      maxlength="3000"
+      placeholder="什么最好吃？辣度、甜度、避雷点，都写下来吧…"
+      value="{{form.note}}"
+      data-field="note"
+      bindinput="field"
+    />
+  </view>
+  <view class="card">
+    <view class="section">📸 店铺与这一餐</view>
+    <view class="photos">
+      <view wx:for="{{form.photos}}" wx:key="*this" class="photo-wrap">
+        <image
+          class="photo"
+          mode="aspectFill"
+          src="{{item}}"
+          data-src="{{item}}"
+          bindtap="preview"
+        />
+        <text
+          class="remove"
+          data-target="photos"
+          data-photo="{{index}}"
+          bindtap="removePhoto"
+        >
+          ×
+        </text>
+      </view>
+    </view>
+    <button class="secondary small" data-target="photos" bindtap="addPhoto">
+      ＋ 拍照 / 从相册选择
+    </button>
+    <view class="section">📋 菜单备忘</view>
+    <view class="photos">
+      <view wx:for="{{form.menuPhotos}}" wx:key="*this" class="photo-wrap">
+        <image
+          class="photo"
+          mode="aspectFill"
+          src="{{item}}"
+          data-src="{{item}}"
+          bindtap="preview"
+        />
+        <text
+          class="remove"
+          data-target="menuPhotos"
+          data-photo="{{index}}"
+          bindtap="removePhoto"
+        >
+          ×
+        </text>
+      </view>
+    </view>
+    <button class="secondary small" data-target="menuPhotos" bindtap="addPhoto">
+      ＋ 给菜单拍张照
+    </button>
+  </view>
+  <view class="row between section">
+    <text>一定要再点的菜 🥢</text>
+    <button class="small mint" bindtap="addDish">＋ 添一道</button>
+  </view>
+  <view
+    wx:for="{{form.dishes}}"
+    wx:key="id"
+    wx:for-item="dish"
+    wx:for-index="dishIndex"
+    class="card"
+  >
+    <view class="row between">
+      <text class="badge">我的推荐菜</text>
+      <text class="link" data-index="{{dishIndex}}" bindtap="removeDish">
+        移除
+      </text>
+    </view>
+    <input
+      class="input"
+      placeholder="菜名"
+      maxlength="60"
+      value="{{dish.name}}"
+      data-index="{{dishIndex}}"
+      data-field="name"
+      bindinput="dishField"
+    />
+    <input
+      class="input"
+      placeholder="价格（选填，如 28 元）"
+      maxlength="20"
+      value="{{dish.price}}"
+      data-index="{{dishIndex}}"
+      data-field="price"
+      bindinput="dishField"
+    />
+    <input
+      class="input"
+      placeholder="好吃在哪里？"
+      maxlength="500"
+      value="{{dish.note}}"
+      data-index="{{dishIndex}}"
+      data-field="note"
+      bindinput="dishField"
+    />
+    <view class="photos">
+      <view wx:for="{{dish.photos}}" wx:key="*this" class="photo-wrap">
+        <image
+          class="photo"
+          mode="aspectFill"
+          src="{{item}}"
+          data-src="{{item}}"
+          bindtap="preview"
+        />
+        <text
+          class="remove"
+          data-target="dish"
+          data-index="{{dishIndex}}"
+          data-photo="{{index}}"
+          bindtap="removePhoto"
+        >
+          ×
+        </text>
+      </view>
+    </view>
+    <button
+      class="small secondary"
+      data-target="dish"
+      data-index="{{dishIndex}}"
+      bindtap="addPhoto"
+    >
+      ＋ 给这道菜拍照
+    </button>
+  </view>
+  <button loading="{{saving}}" disabled="{{saving || loading}}" bindtap="save">
+    {{saving?'正在收藏这份快乐…':pending?'重试确认上一笔保存':'♡
+    保存到我的美食地图'}}
+  </button>
+  <view class="footer-note">照片与记录将同步到你的微信云端空间</view>
+</view>
