@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fff9ef" />
+    <title>饭饭小地图 · 本地美食手帐</title>
+    <link rel="icon" href="/assets/pin.png" type="image/png" />
+    <link rel="stylesheet" href="/vendor/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/vendor/leaflet/leaflet.js" defer></script>
+    <script src="/domain.js" defer></script>
+    <script type="module" src="/app.mjs"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="/"
+          ><span class="brand-symbol">🍙</span
+          ><span>饭饭<span class="brand-small">小地图</span></span></a
+        >
+        <div class="sidebar-caption">好好吃饭，慢慢收藏</div>
+        <nav aria-label="主导航">
+          <button class="nav-button active" data-view="map">
+            <span>⌖</span> 我的美食地图
+          </button>
+          <button class="nav-button" data-view="memories">
+            <span>♡</span> 我的食光
+          </button>
+        </nav>
+        <button class="button primary sidebar-add" id="add-record">
+          ＋ 记一口好吃的
+        </button>
+        <div class="sidebar-bottom">
+          <div class="storage-state">
+            <span class="status-dot"></span
+            ><span id="storage-status">正在连接本机…</span>
+          </div>
+          <div class="profile-label">今天的美食冒险家</div>
+          <div
+            class="profile-switch"
+            id="profile-switch"
+            aria-label="切换本地档案"
+          >
+            <button data-profile="link" class="selected">
+              <span>🌱</span><span id="link-name">小勇者</span>
+            </button>
+            <button data-profile="zelda">
+              <span>🌸</span><span id="zelda-name">小公主</span>
+            </button>
+          </div>
+          <p class="local-help">照片和记录保存在这台电脑</p>
+        </div>
+      </aside>
+      <main>
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">深圳 · 私藏美食手帐</p>
+            <h1 id="page-title">把好吃的，圈进小地图。</h1>
+          </div>
+          <button class="button subtle" id="locate">⌖ 定位到我</button>
+        </header>
+        <section class="hero" id="hero">
+          <div class="hero-copy">
+            <span class="little-label">今天也要认真吃饭</span>
+            <h2>下一顿快乐，<br />就在附近。</h2>
+            <p>记下那家小店，和让你开心到笑的那一口。</p>
+            <button class="button dark" id="hero-add">＋ 收藏一份美味</button>
+          </div>
+          <div
+            id="hero-character"
+            class="hero-character"
+            aria-label="开心的小勇者"
+          ></div>
+          <div class="hero-sticker">好吃，值得再来 ♡</div>
+        </section>
+        <section class="stats" id="stats" aria-label="我的收藏统计"></section>
+        <section class="discovery" id="discovery">
+          <div class="discovery-toolbar">
+            <div class="search-box">
+              <span>⌕</span
+              ><input
+                id="search"
+                aria-label="搜索美食"
+                placeholder="找店名、口味，或那道念念不忘的菜…"
+              /><kbd>⌘ K</kbd>
+            </div>
+            <div class="view-caption" id="result-count">我的私藏好店</div>
+          </div>
+          <div class="categories" id="categories" aria-label="美食分类"></div>
+          <div class="workspace" id="workspace">
+            <section class="map-panel" aria-label="深圳美食地图">
+              <div class="map-heading">
+                <div>
+                  <h2>我的好吃地图 <span>✧</span></h2>
+                  <p id="location-status">
+                    我的位置未设置，可定位或在地图上选点
+                  </p>
+                </div>
+                <button class="button tiny" id="pick-origin">
+                  设置我的位置
+                </button>
+              </div>
+              <div class="map-wrap">
+                <div id="map"></div>
+                <div class="map-hint" id="map-hint" hidden>
+                  点击地图设置你的位置
+                  <button id="cancel-origin" aria-label="取消设置位置">
+                    ×
+                  </button>
+                </div>
+                <button class="map-reset" id="reset-map" aria-label="回到深圳">
+                  ⌂ 深圳
+                </button>
+              </div>
+              <div class="map-footer">
+                <span><i class="legend-dot pink"></i> 私藏店铺</span
+                ><span><i class="legend-dot blue"></i> 我的位置</span
+                ><span id="tile-status">免 Key 在线底图 · 直线距离</span>
+              </div>
+            </section>
+            <section class="records-panel" aria-label="收藏的餐厅">
+              <div class="list-heading">
+                <h2 id="list-title">附近的快乐</h2>
+                <span id="sort-label">按最近记录</span>
+              </div>
+              <div id="records" class="record-list"></div>
+            </section>
+          </div>
+        </section>
+        <footer class="page-footer">
+          每一顿认真吃过的饭，都值得被记住。<span>距离采用直线测算</span>
+        </footer>
+      </main>
+    </div>
+    <dialog id="editor-dialog" class="drawer-dialog">
+      <div id="editor-content"></div>
+    </dialog>
+    <dialog id="detail-dialog" class="drawer-dialog">
+      <div id="detail-content"></div>
+    </dialog>
+    <dialog id="photo-dialog" class="photo-dialog">
+      <button
+        class="close-button"
+        data-close="photo-dialog"
+        aria-label="关闭照片"
+      >
+        ×</button
+      ><img id="large-photo" alt="美食照片大图" />
+    </dialog>
+    <dialog id="confirm-dialog" class="confirm-dialog">
+      <form method="dialog">
+        <div class="confirm-icon">🍂</div>
+        <h2>删除这份美食记忆？</h2>
+        <p>这家店和它的菜品记录、照片将一起移除。</p>
+        <div class="button-row">
+          <button class="button subtle" value="cancel">再想想</button
+          ><button class="button danger" value="delete">确认删除</button>
+        </div>
+      </form>
+    </dialog>
+    <div
+      id="toast"
+      popover="manual"
+      role="status"
+      aria-live="polite"
+      hidden
+    ></div>
+  </body>
+</html>

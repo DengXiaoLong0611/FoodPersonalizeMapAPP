@@ -16,11 +16,12 @@ const files = [
   ...walk("miniprogram"),
   ...walk("cloudfunctions"),
   ...walk("tests"),
+  ...walk("local"),
   ...walk("scripts"),
 ];
 for (const file of files) {
   if (file.endsWith(".json")) JSON.parse(fs.readFileSync(file, "utf8"));
-  if (file.endsWith(".js"))
+  if (/\.(js|mjs)$/.test(file))
     execFileSync(process.execPath, ["--check", file], { stdio: "pipe" });
   if (
     /\.(js|wxml|wxss|json)$/.test(file) &&

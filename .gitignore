@@ -4,3 +4,5 @@ project.private.config.json
 miniprogram/config.local.js
 .env*
 !.env.example
+
+.local/
